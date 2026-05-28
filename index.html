@@ -19,14 +19,10 @@
 body{background:var(--bg);color:var(--text);font-family:var(--sans);min-height:100vh;overflow-x:hidden}
 .screen{display:none;min-height:100vh;flex-direction:column}
 .screen.active{display:flex}
-
-/* LOADING */
 .loading-overlay{position:fixed;inset:0;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:100;gap:16px}
 .loading-spinner{width:32px;height:32px;border:2px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:spin .7s linear infinite}
 .loading-text{font-size:13px;color:var(--muted)}
 @keyframes spin{to{transform:rotate(360deg)}}
-
-/* HOME */
 .home-bg{position:absolute;width:340px;height:340px;background:radial-gradient(circle,rgba(0,229,160,.12) 0%,transparent 70%);top:-60px;right:-80px;pointer-events:none}
 .home-bg2{position:absolute;width:260px;height:260px;background:radial-gradient(circle,rgba(77,124,255,.1) 0%,transparent 70%);bottom:100px;left:-60px;pointer-events:none}
 #home{position:relative;overflow:hidden}
@@ -34,8 +30,6 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);min-height:1
 .home-greeting{font-size:12px;color:var(--muted);letter-spacing:.12em;text-transform:uppercase;font-weight:500;margin-bottom:4px}
 .home-title{font-size:26px;font-weight:600}
 .home-month{font-family:var(--mono);font-size:12px;color:var(--accent);margin-top:3px}
-
-/* INGRESOS EDITOR */
 .ing-card{margin:8px 20px 16px;background:var(--card);border:1px solid var(--border);border-radius:16px;padding:16px;position:relative;z-index:1}
 .ing-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
 .ing-title{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;font-weight:500}
@@ -45,11 +39,7 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);min-height:1
 .ing-name{font-size:13px;color:var(--muted)}
 .ing-val{font-family:var(--mono);font-size:13px;font-weight:500;color:var(--text)}
 .ing-input{font-family:var(--mono);font-size:13px;font-weight:500;background:rgba(0,229,160,.08);border:1px solid var(--accent);border-radius:8px;color:var(--text);padding:4px 8px;width:130px;text-align:right;outline:none;-webkit-appearance:none}
-
-/* SECTION TITLE */
 .section-title{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.12em;font-weight:500;padding:0 24px;margin-bottom:10px;position:relative;z-index:1}
-
-/* BUDGET BARS */
 .budget-list{padding:0 20px;display:flex;flex-direction:column;gap:8px;margin-bottom:20px;position:relative;z-index:1}
 .budget-item{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:12px 14px}
 .budget-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
@@ -59,14 +49,10 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);min-height:1
 .bar-track{height:5px;background:rgba(255,255,255,.08);border-radius:99px;overflow:hidden}
 .bar-fill{height:100%;border-radius:99px;transition:width .6s cubic-bezier(.16,1,.3,1)}
 .bar-ok{background:var(--accent)}.bar-warn{background:var(--warn)}.bar-over{background:var(--danger)}
-
-/* SIN LÍMITE */
 .nolimit-list{padding:0 20px;display:flex;flex-direction:column;gap:8px;margin-bottom:20px;position:relative;z-index:1}
 .nolimit-item{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:12px 14px;display:flex;justify-content:space-between;align-items:center}
 .nolimit-name{font-size:13px;font-weight:500;color:var(--muted)}
 .nolimit-val{font-family:var(--mono);font-size:13px;font-weight:500;color:var(--accent2)}
-
-/* RESUMEN FINAL */
 .resumen-card{margin:0 20px 32px;background:var(--card);border:1px solid var(--border);border-radius:16px;padding:18px;position:relative;z-index:1;overflow:hidden}
 .resumen-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--accent2),var(--accent))}
 .resumen-row{display:flex;justify-content:space-between;align-items:center;padding:9px 0;border-bottom:1px solid rgba(255,255,255,.06);font-size:14px}
@@ -79,13 +65,9 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);min-height:1
 .resumen-val.pos{color:var(--accent);font-size:16px}
 .resumen-val.neg{color:var(--danger);font-size:16px}
 .resumen-row.total .resumen-label{color:var(--text);font-weight:600;font-size:15px}
-
-/* CTA */
 .cta-wrap{padding:0 20px 40px;position:sticky;bottom:0;background:linear-gradient(to top,var(--bg) 70%,transparent);padding-top:20px;z-index:2}
 .cta-btn{width:100%;height:56px;background:var(--accent);color:#0a0a0f;border:none;border-radius:16px;font-family:var(--sans);font-size:16px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:transform .12s,opacity .12s}
 .cta-btn:active{transform:scale(.97);opacity:.9}
-
-/* FORM */
 #form-screen{background:var(--bg)}
 .form-header{display:flex;align-items:center;padding:56px 24px 20px;gap:16px}
 .back-btn{width:38px;height:38px;background:var(--card);border:1px solid var(--border);border-radius:10px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:18px;color:var(--text);flex-shrink:0}
@@ -107,8 +89,6 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);min-height:1
 .submit-btn:active{transform:scale(.97)}
 .submit-btn:disabled{opacity:.4}
 .btn-spinner{width:18px;height:18px;border:2px solid rgba(10,10,15,.3);border-top-color:#0a0a0f;border-radius:50%;animation:spin .7s linear infinite;display:none}
-
-/* SUCCESS */
 #success-screen{background:var(--bg);align-items:center;justify-content:center;padding:40px 24px;text-align:center}
 .success-icon{width:72px;height:72px;background:rgba(0,229,160,.12);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:32px;margin:0 auto 20px;border:1px solid rgba(0,229,160,.3)}
 .success-title{font-size:24px;font-weight:600;margin-bottom:6px}
@@ -132,6 +112,7 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);min-height:1
 .home-btn{flex:1;height:56px;background:rgba(255,255,255,.06);color:var(--text);border:1px solid var(--border);border-radius:16px;font-family:var(--sans);font-size:14px;font-weight:500;cursor:pointer}
 .new-btn{flex:1;height:56px;background:var(--accent);color:#0a0a0f;border:none;border-radius:16px;font-family:var(--sans);font-size:14px;font-weight:600;cursor:pointer}
 .new-btn:active,.home-btn:active{transform:scale(.97)}
+.error-toast{position:fixed;bottom:100px;left:20px;right:20px;background:#ff4d6d;color:white;padding:14px 18px;border-radius:12px;font-size:13px;font-weight:500;text-align:center;z-index:200;display:none}
 </style>
 </head>
 <body>
@@ -141,6 +122,8 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);min-height:1
   <div class="loading-text">Cargando tus finanzas...</div>
 </div>
 
+<div class="error-toast" id="error-toast"></div>
+
 <!-- HOME -->
 <div id="home" class="screen">
   <div class="home-bg"></div><div class="home-bg2"></div>
@@ -149,7 +132,6 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);min-height:1
     <div class="home-title">Tus Finanzas</div>
     <div class="home-month" id="home-month"></div>
   </div>
-
   <div class="ing-card">
     <div class="ing-header">
       <span class="ing-title">Ingresos del mes</span>
@@ -166,13 +148,10 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);min-height:1
       <div class="ing-row"><span class="ing-name">Otros ingresos</span><input class="ing-input" id="e-otros" type="number" inputmode="numeric"></div>
     </div>
   </div>
-
   <div class="section-title">Presupuestos con límite</div>
   <div class="budget-list" id="budget-bars"></div>
-
   <div class="section-title">Sin límite fijo</div>
   <div class="nolimit-list" id="nolimit-list"></div>
-
   <div class="section-title">Resumen del mes</div>
   <div class="resumen-card">
     <div class="resumen-row">
@@ -188,7 +167,6 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);min-height:1
       <span class="resumen-val" id="r-disp">—</span>
     </div>
   </div>
-
   <div class="cta-wrap">
     <button class="cta-btn" onclick="goForm()">+ &nbsp;Registrar gasto</button>
   </div>
@@ -274,9 +252,15 @@ function show(id){
   window.scrollTo(0,0);
 }
 
-/* ── INGRESOS ── */
+function showToast(msg){
+  const t=document.getElementById('error-toast');
+  t.textContent=msg;t.style.display='block';
+  setTimeout(()=>t.style.display='none',3500);
+}
+
+/* INGRESOS */
 function loadIngresosStorage(){
-  try{const s=localStorage.getItem('ing');if(s)ingresos=JSON.parse(s)}catch(e){}
+  try{const s=localStorage.getItem('ing');if(s)ingresos=JSON.parse(s);}catch(e){}
   document.getElementById('e-fijo').value=ingresos.fijo;
   document.getElementById('e-estac').value=ingresos.estac;
   document.getElementById('e-otros').value=ingresos.otros;
@@ -287,7 +271,7 @@ function saveIngresosStorage(){
   ingresos.fijo=parseInt(document.getElementById('e-fijo').value)||0;
   ingresos.estac=parseInt(document.getElementById('e-estac').value)||0;
   ingresos.otros=parseInt(document.getElementById('e-otros').value)||0;
-  try{localStorage.setItem('ing',JSON.stringify(ingresos))}catch(e){}
+  try{localStorage.setItem('ing',JSON.stringify(ingresos));}catch(e){}
 }
 
 function updateIngView(){
@@ -304,33 +288,55 @@ function toggleIngresos(){
   if(!editingIngresos){saveIngresosStorage();updateIngView();renderHome();}
 }
 
-/* ── FETCH GASTOS DESDE SHEETS ── */
+/* FETCH con JSONP para evitar CORS en Safari */
+function fetchJSONP(url){
+  return new Promise((resolve,reject)=>{
+    const cb='cb_'+Date.now();
+    const script=document.createElement('script');
+    const timeout=setTimeout(()=>{
+      cleanup();reject(new Error('timeout'));
+    },10000);
+    function cleanup(){
+      delete window[cb];
+      if(script.parentNode)script.parentNode.removeChild(script);
+      clearTimeout(timeout);
+    }
+    window[cb]=function(data){cleanup();resolve(data);};
+    script.src=url+(url.includes('?')?'&':'?')+'callback='+cb;
+    script.onerror=()=>{cleanup();reject(new Error('error'));};
+    document.head.appendChild(script);
+  });
+}
+
 async function fetchGastos(){
   const now=new Date();
   try{
-    const res=await fetch(SCRIPT_URL+'?mes='+(now.getMonth()+1)+'&anio='+now.getFullYear());
-    const data=await res.json();
+    const data=await fetchJSONP(SCRIPT_URL+'?mes='+(now.getMonth()+1)+'&anio='+now.getFullYear());
     if(data.status==='ok') gastosMes=data.gastos||{};
-  }catch(e){gastosMes={};}
+  }catch(e){
+    // si falla, intentar cargar desde localStorage como caché
+    try{const s=localStorage.getItem('gastos_cache');if(s)gastosMes=JSON.parse(s);}catch(e2){}
+  }
 }
 
-/* ── RENDER HOME ── */
+/* Guardar gastos como caché local */
+function cacheGastos(){
+  try{localStorage.setItem('gastos_cache',JSON.stringify(gastosMes));}catch(e){}
+}
+
+/* RENDER HOME */
 function renderHome(){
   const now=new Date();
   document.getElementById('home-month').textContent=MONTHS[now.getMonth()]+' '+now.getFullYear();
-
   const ing=totalIngresos();
   const totalGastado=Object.values(gastosMes).reduce((a,b)=>a+b,0);
   const disponible=ing-totalGastado;
-
-  // Resumen final
   document.getElementById('r-ing').textContent=fmt(ing);
   document.getElementById('r-gast').textContent='−'+fmt(totalGastado);
   const rDisp=document.getElementById('r-disp');
   rDisp.textContent=fmt(Math.abs(disponible));
   rDisp.className='resumen-val '+(disponible>=0?'pos':'neg');
 
-  // Barras con límite
   const bc=document.getElementById('budget-bars');
   bc.innerHTML='';
   for(const[cat,presup] of Object.entries(PRESUPUESTO)){
@@ -339,21 +345,14 @@ function renderHome(){
     const barClass=pct<80?'bar-ok':pct<100?'bar-warn':'bar-over';
     const restante=presup-gastado;
     const restLabel=restante>=0
-      ? '<span style="color:var(--accent)">Restante: '+fmt(restante)+'</span>'
-      : '<span style="color:var(--danger)">Exceso: '+fmt(Math.abs(restante))+'</span>';
+      ?'<span style="color:var(--accent)">Restante: '+fmt(restante)+'</span>'
+      :'<span style="color:var(--danger)">Exceso: '+fmt(Math.abs(restante))+'</span>';
     const item=document.createElement('div');
     item.className='budget-item';
-    item.innerHTML=`
-      <div class="budget-top">
-        <span class="budget-name">${cat}</span>
-        <span class="budget-nums">${fmt(gastado)} / ${fmt(presup)}</span>
-      </div>
-      <div class="bar-track"><div class="bar-fill ${barClass}" style="width:${pct}%"></div></div>
-      <div class="budget-restante">${restLabel}</div>`;
+    item.innerHTML=`<div class="budget-top"><span class="budget-name">${cat}</span><span class="budget-nums">${fmt(gastado)} / ${fmt(presup)}</span></div><div class="bar-track"><div class="bar-fill ${barClass}" style="width:${pct}%"></div></div><div class="budget-restante">${restLabel}</div>`;
     bc.appendChild(item);
   }
 
-  // Sin límite
   const nl=document.getElementById('nolimit-list');
   nl.innerHTML='';
   for(const cat of SIN_LIMITE){
@@ -367,7 +366,7 @@ function renderHome(){
 
 function goHome(){renderHome();show('home');}
 
-/* ── FORM ── */
+/* FORM */
 function goForm(){
   selectedCat='';
   document.getElementById('monto').value='';
@@ -382,9 +381,7 @@ function goForm(){
 
 function selectCat(btn,cat){
   document.querySelectorAll('.cat-btn').forEach(b=>b.classList.remove('selected'));
-  btn.classList.add('selected');
-  selectedCat=cat;
-  updateSubmitBtn();
+  btn.classList.add('selected');selectedCat=cat;updateSubmitBtn();
 }
 
 function updateSubmitBtn(){
@@ -396,6 +393,38 @@ function updateSubmitBtn(){
   else{btn.disabled=true;lbl.textContent='Ingresa el monto';}
 }
 document.getElementById('monto').addEventListener('input',updateSubmitBtn);
+
+/* ENVÍO con iframe para evitar bloqueo CORS en Safari */
+function postViaIframe(url, data){
+  return new Promise((resolve)=>{
+    const form=document.createElement('form');
+    form.method='POST';
+    form.action=url;
+    form.target='hidden_iframe';
+    form.style.display='none';
+    // Enviamos como campo único JSON
+    const input=document.createElement('input');
+    input.type='hidden';
+    input.name='payload';
+    input.value=JSON.stringify(data);
+    form.appendChild(input);
+
+    let iframe=document.getElementById('hidden_iframe');
+    if(!iframe){
+      iframe=document.createElement('iframe');
+      iframe.name='hidden_iframe';
+      iframe.id='hidden_iframe';
+      iframe.style.display='none';
+      document.body.appendChild(iframe);
+    }
+    iframe.onload=()=>resolve('ok');
+    document.body.appendChild(form);
+    form.submit();
+    document.body.removeChild(form);
+    // resolve after timeout as fallback
+    setTimeout(()=>resolve('ok'),3000);
+  });
+}
 
 async function submitGasto(){
   const monto=parseInt(document.getElementById('monto').value);
@@ -410,29 +439,37 @@ async function submitGasto(){
 
   const[yyyy,mm,dd]=fechaVal.split('-');
   const fechaDisplay=`${dd}/${mm}/${yyyy}`;
+  const payload={monto,categoria:selectedCat,descripcion:desc,fecha:fechaVal};
 
   try{
+    // Intentar fetch normal primero
+    const controller=new AbortController();
+    const tid=setTimeout(()=>controller.abort(),8000);
     await fetch(SCRIPT_URL,{
-      method:'POST',mode:'no-cors',
-      headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({monto,categoria:selectedCat,descripcion:desc,fecha:fechaVal})
+      method:'POST',
+      mode:'no-cors',
+      headers:{'Content-Type':'text/plain'},
+      body:JSON.stringify(payload),
+      signal:controller.signal
     });
-
-    // update local cache immediately
-    gastosMes[selectedCat]=(gastosMes[selectedCat]||0)+monto;
-
-    // fill success screen
-    document.getElementById('s-fecha').textContent=fechaDisplay;
-    document.getElementById('s-monto').textContent=fmt(monto);
-    document.getElementById('s-cat').textContent=selectedCat;
-    document.getElementById('s-desc').textContent=desc;
-    document.getElementById('success-sub').textContent=selectedCat+' · '+fechaDisplay;
-    renderBudgetSummary();
-    show('success-screen');
-
+    clearTimeout(tid);
   }catch(e){
-    btn.disabled=false;sp.style.display='none';lbl.textContent='Error — intenta de nuevo';
+    // Si falla, usar iframe como fallback
+    await postViaIframe(SCRIPT_URL, payload);
   }
+
+  // Actualizar caché local inmediatamente
+  gastosMes[selectedCat]=(gastosMes[selectedCat]||0)+monto;
+  cacheGastos();
+
+  // Pantalla de éxito
+  document.getElementById('s-fecha').textContent=fechaDisplay;
+  document.getElementById('s-monto').textContent=fmt(monto);
+  document.getElementById('s-cat').textContent=selectedCat;
+  document.getElementById('s-desc').textContent=desc;
+  document.getElementById('success-sub').textContent=selectedCat+' · '+fechaDisplay;
+  renderBudgetSummary();
+  show('success-screen');
 }
 
 function renderBudgetSummary(){
@@ -450,13 +487,18 @@ function renderBudgetSummary(){
   }
 }
 
-/* ── INIT ── */
+/* INIT — carga Sheets, con caché local como respaldo */
 async function init(){
   loadIngresosStorage();
-  await fetchGastos();
+  // Primero mostrar caché para que no se vea vacío
+  try{const s=localStorage.getItem('gastos_cache');if(s)gastosMes=JSON.parse(s);}catch(e){}
   renderHome();
   document.getElementById('loading').style.display='none';
   show('home');
+  // Luego actualizar desde Sheets en segundo plano
+  await fetchGastos();
+  cacheGastos();
+  renderHome();
 }
 init();
 </script>
