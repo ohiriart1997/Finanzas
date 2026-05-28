@@ -9,12 +9,7 @@
 <title>💸 Finanzas</title>
 <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
-:root {
-  --bg:#0a0a0f;--surface:#13131a;--card:#1a1a24;--border:#2a2a3a;
-  --accent:#00e5a0;--accent2:#4d7cff;--warn:#ff9f43;--danger:#ff4d6d;
-  --text:#f0f0f8;--muted:#6b6b8a;
-  --mono:'DM Mono',monospace;--sans:'DM Sans',sans-serif;
-}
+:root{--bg:#0a0a0f;--surface:#13131a;--card:#1a1a24;--border:#2a2a3a;--accent:#00e5a0;--accent2:#4d7cff;--warn:#ff9f43;--danger:#ff4d6d;--text:#f0f0f8;--muted:#6b6b8a;--mono:'DM Mono',monospace;--sans:'DM Sans',sans-serif}
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 body{background:var(--bg);color:var(--text);font-family:var(--sans);min-height:100vh;overflow-x:hidden}
 .screen{display:none;min-height:100vh;flex-direction:column}
@@ -28,8 +23,16 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);min-height:1
 #home{position:relative;overflow:hidden}
 .home-header{padding:56px 24px 16px;position:relative;z-index:1}
 .home-greeting{font-size:12px;color:var(--muted);letter-spacing:.12em;text-transform:uppercase;font-weight:500;margin-bottom:4px}
-.home-title{font-size:26px;font-weight:600}
-.home-month{font-family:var(--mono);font-size:12px;color:var(--accent);margin-top:3px}
+.home-title{font-size:26px;font-weight:600;margin-bottom:12px}
+
+/* MES/AÑO SELECTOR */
+.period-selector{display:flex;gap:8px;margin-top:8px}
+.period-select{flex:1;height:38px;background:var(--card);border:1px solid var(--border);border-radius:10px;color:var(--text);font-family:var(--mono);font-size:13px;font-weight:500;padding:0 10px;outline:none;-webkit-appearance:none;appearance:none;cursor:pointer;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%236b6b8a' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 10px center;padding-right:28px}
+.period-select:focus{border-color:var(--accent)}
+.period-select option{background:#1a1a24;color:var(--text)}
+.refresh-btn{width:38px;height:38px;background:var(--card);border:1px solid var(--border);border-radius:10px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:16px;flex-shrink:0;transition:transform .2s}
+.refresh-btn.spinning{animation:spin .7s linear infinite}
+
 .ing-card{margin:8px 20px 16px;background:var(--card);border:1px solid var(--border);border-radius:16px;padding:16px;position:relative;z-index:1}
 .ing-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
 .ing-title{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;font-weight:500}
@@ -112,7 +115,6 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);min-height:1
 .home-btn{flex:1;height:56px;background:rgba(255,255,255,.06);color:var(--text);border:1px solid var(--border);border-radius:16px;font-family:var(--sans);font-size:14px;font-weight:500;cursor:pointer}
 .new-btn{flex:1;height:56px;background:var(--accent);color:#0a0a0f;border:none;border-radius:16px;font-family:var(--sans);font-size:14px;font-weight:600;cursor:pointer}
 .new-btn:active,.home-btn:active{transform:scale(.97)}
-.error-toast{position:fixed;bottom:100px;left:20px;right:20px;background:#ff4d6d;color:white;padding:14px 18px;border-radius:12px;font-size:13px;font-weight:500;text-align:center;z-index:200;display:none}
 </style>
 </head>
 <body>
@@ -122,16 +124,19 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);min-height:1
   <div class="loading-text">Cargando tus finanzas...</div>
 </div>
 
-<div class="error-toast" id="error-toast"></div>
-
 <!-- HOME -->
 <div id="home" class="screen">
   <div class="home-bg"></div><div class="home-bg2"></div>
   <div class="home-header">
     <div class="home-greeting">Hola 👋</div>
     <div class="home-title">Tus Finanzas</div>
-    <div class="home-month" id="home-month"></div>
+    <div class="period-selector">
+      <select class="period-select" id="sel-mes" onchange="onPeriodChange()"></select>
+      <select class="period-select" id="sel-anio" onchange="onPeriodChange()"></select>
+      <div class="refresh-btn" id="refresh-btn" onclick="refreshData()">↻</div>
+    </div>
   </div>
+
   <div class="ing-card">
     <div class="ing-header">
       <span class="ing-title">Ingresos del mes</span>
@@ -148,24 +153,16 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);min-height:1
       <div class="ing-row"><span class="ing-name">Otros ingresos</span><input class="ing-input" id="e-otros" type="number" inputmode="numeric"></div>
     </div>
   </div>
+
   <div class="section-title">Presupuestos con límite</div>
   <div class="budget-list" id="budget-bars"></div>
   <div class="section-title">Sin límite fijo</div>
   <div class="nolimit-list" id="nolimit-list"></div>
   <div class="section-title">Resumen del mes</div>
   <div class="resumen-card">
-    <div class="resumen-row">
-      <span class="resumen-label">Ingresos totales</span>
-      <span class="resumen-val ing" id="r-ing">—</span>
-    </div>
-    <div class="resumen-row">
-      <span class="resumen-label">Gastos totales</span>
-      <span class="resumen-val gast" id="r-gast">—</span>
-    </div>
-    <div class="resumen-row total">
-      <span class="resumen-label">Disponible</span>
-      <span class="resumen-val" id="r-disp">—</span>
-    </div>
+    <div class="resumen-row"><span class="resumen-label">Ingresos totales</span><span class="resumen-val ing" id="r-ing">—</span></div>
+    <div class="resumen-row"><span class="resumen-label">Gastos totales</span><span class="resumen-val gast" id="r-gast">—</span></div>
+    <div class="resumen-row total"><span class="resumen-label">Disponible</span><span class="resumen-val" id="r-disp">—</span></div>
   </div>
   <div class="cta-wrap">
     <button class="cta-btn" onclick="goForm()">+ &nbsp;Registrar gasto</button>
@@ -242,6 +239,8 @@ let selectedCat='';
 let gastosMes={};
 let ingresos={fijo:1400000,estac:60000,otros:0};
 let editingIngresos=false;
+let selectedMes=new Date().getMonth()+1;
+let selectedAnio=new Date().getFullYear();
 
 function fmt(n){return '$'+Math.round(n).toLocaleString('es-CL')}
 function totalIngresos(){return ingresos.fijo+ingresos.estac+ingresos.otros}
@@ -252,10 +251,38 @@ function show(id){
   window.scrollTo(0,0);
 }
 
-function showToast(msg){
-  const t=document.getElementById('error-toast');
-  t.textContent=msg;t.style.display='block';
-  setTimeout(()=>t.style.display='none',3500);
+/* PERIOD SELECTORS */
+function initSelectors(){
+  const selMes=document.getElementById('sel-mes');
+  MONTHS.forEach((m,i)=>{
+    const opt=document.createElement('option');
+    opt.value=i+1;opt.textContent=m;
+    if(i+1===selectedMes)opt.selected=true;
+    selMes.appendChild(opt);
+  });
+  const selAnio=document.getElementById('sel-anio');
+  const now=new Date().getFullYear();
+  for(let y=now-2;y<=now+1;y++){
+    const opt=document.createElement('option');
+    opt.value=y;opt.textContent=y;
+    if(y===selectedAnio)opt.selected=true;
+    selAnio.appendChild(opt);
+  }
+}
+
+async function onPeriodChange(){
+  selectedMes=parseInt(document.getElementById('sel-mes').value);
+  selectedAnio=parseInt(document.getElementById('sel-anio').value);
+  await fetchGastos();
+  renderHome();
+}
+
+async function refreshData(){
+  const btn=document.getElementById('refresh-btn');
+  btn.classList.add('spinning');
+  await fetchGastos();
+  renderHome();
+  btn.classList.remove('spinning');
 }
 
 /* INGRESOS */
@@ -288,19 +315,13 @@ function toggleIngresos(){
   if(!editingIngresos){saveIngresosStorage();updateIngView();renderHome();}
 }
 
-/* FETCH con JSONP para evitar CORS en Safari */
+/* FETCH JSONP */
 function fetchJSONP(url){
   return new Promise((resolve,reject)=>{
     const cb='cb_'+Date.now();
     const script=document.createElement('script');
-    const timeout=setTimeout(()=>{
-      cleanup();reject(new Error('timeout'));
-    },10000);
-    function cleanup(){
-      delete window[cb];
-      if(script.parentNode)script.parentNode.removeChild(script);
-      clearTimeout(timeout);
-    }
+    const timeout=setTimeout(()=>{cleanup();reject(new Error('timeout'));},10000);
+    function cleanup(){delete window[cb];if(script.parentNode)script.parentNode.removeChild(script);clearTimeout(timeout);}
     window[cb]=function(data){cleanup();resolve(data);};
     script.src=url+(url.includes('?')?'&':'?')+'callback='+cb;
     script.onerror=()=>{cleanup();reject(new Error('error'));};
@@ -309,28 +330,23 @@ function fetchJSONP(url){
 }
 
 async function fetchGastos(){
-  const now=new Date();
   try{
-    const data=await fetchJSONP(SCRIPT_URL+'?mes='+(now.getMonth()+1)+'&anio='+now.getFullYear());
-    if(data.status==='ok') gastosMes=data.gastos||{};
+    const data=await fetchJSONP(SCRIPT_URL+'?mes='+selectedMes+'&anio='+selectedAnio);
+    if(data.status==='ok'){
+      gastosMes=data.gastos||{};
+      try{localStorage.setItem('gastos_cache_'+selectedMes+'_'+selectedAnio,JSON.stringify(gastosMes));}catch(e){}
+    }
   }catch(e){
-    // si falla, intentar cargar desde localStorage como caché
-    try{const s=localStorage.getItem('gastos_cache');if(s)gastosMes=JSON.parse(s);}catch(e2){}
+    try{const s=localStorage.getItem('gastos_cache_'+selectedMes+'_'+selectedAnio);if(s)gastosMes=JSON.parse(s);}catch(e2){}
   }
-}
-
-/* Guardar gastos como caché local */
-function cacheGastos(){
-  try{localStorage.setItem('gastos_cache',JSON.stringify(gastosMes));}catch(e){}
 }
 
 /* RENDER HOME */
 function renderHome(){
-  const now=new Date();
-  document.getElementById('home-month').textContent=MONTHS[now.getMonth()]+' '+now.getFullYear();
   const ing=totalIngresos();
   const totalGastado=Object.values(gastosMes).reduce((a,b)=>a+b,0);
   const disponible=ing-totalGastado;
+
   document.getElementById('r-ing').textContent=fmt(ing);
   document.getElementById('r-gast').textContent='−'+fmt(totalGastado);
   const rDisp=document.getElementById('r-disp');
@@ -394,59 +410,14 @@ function updateSubmitBtn(){
 }
 document.getElementById('monto').addEventListener('input',updateSubmitBtn);
 
-/* ENVÍO con iframe para evitar bloqueo CORS en Safari */
-function postViaIframe(url, data){
-  return new Promise((resolve)=>{
-    const form=document.createElement('form');
-    form.method='POST';
-    form.action=url;
-    form.target='hidden_iframe';
-    form.style.display='none';
-    // Enviamos como campo único JSON
-    const input=document.createElement('input');
-    input.type='hidden';
-    input.name='payload';
-    input.value=JSON.stringify(data);
-    form.appendChild(input);
-
-    let iframe=document.getElementById('hidden_iframe');
-    if(!iframe){
-      iframe=document.createElement('iframe');
-      iframe.name='hidden_iframe';
-      iframe.id='hidden_iframe';
-      iframe.style.display='none';
-      document.body.appendChild(iframe);
-    }
-    iframe.onload=()=>resolve('ok');
-    document.body.appendChild(form);
-    form.submit();
-    document.body.removeChild(form);
-    // resolve after timeout as fallback
-    setTimeout(()=>resolve('ok'),3000);
-  });
-}
-
 function sendViaJSONP(data){
   return new Promise((resolve)=>{
     const cb='cb_'+Date.now();
     const script=document.createElement('script');
-    const timeout=setTimeout(()=>{
-      cleanup();resolve('timeout');
-    },10000);
-    function cleanup(){
-      delete window[cb];
-      if(script.parentNode)script.parentNode.removeChild(script);
-      clearTimeout(timeout);
-    }
+    const timeout=setTimeout(()=>{cleanup();resolve('timeout');},10000);
+    function cleanup(){delete window[cb];if(script.parentNode)script.parentNode.removeChild(script);clearTimeout(timeout);}
     window[cb]=function(res){cleanup();resolve(res);};
-    const params=new URLSearchParams({
-      action:'save',
-      fecha:data.fecha,
-      monto:data.monto,
-      categoria:data.categoria,
-      descripcion:data.descripcion,
-      callback:cb
-    });
+    const params=new URLSearchParams({action:'save',fecha:data.fecha,monto:data.monto,categoria:data.categoria,descripcion:data.descripcion,callback:cb});
     script.src=SCRIPT_URL+'?'+params.toString();
     script.onerror=()=>{cleanup();resolve('error');};
     document.head.appendChild(script);
@@ -468,14 +439,17 @@ async function submitGasto(){
   const fechaDisplay=`${dd}/${mm}/${yyyy}`;
   const payload={monto,categoria:selectedCat,descripcion:desc,fecha:fechaVal};
 
-  // Enviar via JSONP GET (funciona en Safari sin restricciones CORS)
   await sendViaJSONP(payload);
 
-  // Actualizar caché local inmediatamente
-  gastosMes[selectedCat]=(gastosMes[selectedCat]||0)+monto;
-  cacheGastos();
+  // Actualizar mes seleccionado al mes del gasto registrado
+  selectedMes=parseInt(mm);
+  selectedAnio=parseInt(yyyy);
+  document.getElementById('sel-mes').value=selectedMes;
+  document.getElementById('sel-anio').value=selectedAnio;
 
-  // Pantalla de éxito
+  gastosMes[selectedCat]=(gastosMes[selectedCat]||0)+monto;
+  try{localStorage.setItem('gastos_cache_'+selectedMes+'_'+selectedAnio,JSON.stringify(gastosMes));}catch(e){}
+
   document.getElementById('s-fecha').textContent=fechaDisplay;
   document.getElementById('s-monto').textContent=fmt(monto);
   document.getElementById('s-cat').textContent=selectedCat;
@@ -500,17 +474,14 @@ function renderBudgetSummary(){
   }
 }
 
-/* INIT — carga Sheets, con caché local como respaldo */
 async function init(){
+  initSelectors();
   loadIngresosStorage();
-  // Primero mostrar caché para que no se vea vacío
-  try{const s=localStorage.getItem('gastos_cache');if(s)gastosMes=JSON.parse(s);}catch(e){}
+  try{const s=localStorage.getItem('gastos_cache_'+selectedMes+'_'+selectedAnio);if(s)gastosMes=JSON.parse(s);}catch(e){}
   renderHome();
   document.getElementById('loading').style.display='none';
   show('home');
-  // Luego actualizar desde Sheets en segundo plano
   await fetchGastos();
-  cacheGastos();
   renderHome();
 }
 init();
