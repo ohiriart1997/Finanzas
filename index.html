@@ -426,6 +426,33 @@ function postViaIframe(url, data){
   });
 }
 
+function sendViaJSONP(data){
+  return new Promise((resolve)=>{
+    const cb='cb_'+Date.now();
+    const script=document.createElement('script');
+    const timeout=setTimeout(()=>{
+      cleanup();resolve('timeout');
+    },10000);
+    function cleanup(){
+      delete window[cb];
+      if(script.parentNode)script.parentNode.removeChild(script);
+      clearTimeout(timeout);
+    }
+    window[cb]=function(res){cleanup();resolve(res);};
+    const params=new URLSearchParams({
+      action:'save',
+      fecha:data.fecha,
+      monto:data.monto,
+      categoria:data.categoria,
+      descripcion:data.descripcion,
+      callback:cb
+    });
+    script.src=SCRIPT_URL+'?'+params.toString();
+    script.onerror=()=>{cleanup();resolve('error');};
+    document.head.appendChild(script);
+  });
+}
+
 async function submitGasto(){
   const monto=parseInt(document.getElementById('monto').value);
   const desc=document.getElementById('descripcion').value||'—';
@@ -441,22 +468,8 @@ async function submitGasto(){
   const fechaDisplay=`${dd}/${mm}/${yyyy}`;
   const payload={monto,categoria:selectedCat,descripcion:desc,fecha:fechaVal};
 
-  try{
-    // Intentar fetch normal primero
-    const controller=new AbortController();
-    const tid=setTimeout(()=>controller.abort(),8000);
-    await fetch(SCRIPT_URL,{
-      method:'POST',
-      mode:'no-cors',
-      headers:{'Content-Type':'text/plain'},
-      body:JSON.stringify(payload),
-      signal:controller.signal
-    });
-    clearTimeout(tid);
-  }catch(e){
-    // Si falla, usar iframe como fallback
-    await postViaIframe(SCRIPT_URL, payload);
-  }
+  // Enviar via JSONP GET (funciona en Safari sin restricciones CORS)
+  await sendViaJSONP(payload);
 
   // Actualizar caché local inmediatamente
   gastosMes[selectedCat]=(gastosMes[selectedCat]||0)+monto;
